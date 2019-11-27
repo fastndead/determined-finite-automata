@@ -1,7 +1,5 @@
-
 class DFA {
-    constructor(jsonFile) {
-        const dfa = require(jsonFile);
+    constructor(dfa) {
         this.alphabet = new Set(dfa.Alphabet);
         this.states = dfa.States;
         this.initialStates = new Set(dfa.InitialStates);
@@ -9,7 +7,7 @@ class DFA {
         this.actions = dfa.Actions;
     }
 
-    maxString(str, start) {
+    findString(str, start) {
         let flag = false;
         let maxLen = 0;
 
@@ -23,8 +21,8 @@ class DFA {
             flag = true;
         }
 
-        for (let i = 0; i < str.length; i++) {
-            const curChar = str[i] + "";
+        for (let i = start; i < str.length; i++) {
+            const curChar = str[i];
 
             if (this.alphabet.has(curChar)) {
                 let count = curStates.length;
@@ -47,13 +45,10 @@ class DFA {
                 return [flag, maxLen]
             }
         }
-        console.log(str.substr(start, maxLen));
-        return [flag, maxLen];
+        return {flag, maxLen, substr: str.substr(start, maxLen)};
     }
 }
 
-module.exports = {
-    dfa: DFA
-};
+module.exports = DFA;
 
 
